@@ -1,0 +1,10 @@
+.content-body section {
+    width: 99%;
+}
+.content-body section .animeList{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 250px);
+    gap: 10px;
+    place-content: center;
+   
+}
