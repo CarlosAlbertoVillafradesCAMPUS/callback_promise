@@ -1,21 +1,24 @@
 export default {
     API: "https://netflix54.p.rapidapi.com/search/?query=stranger&offset=0&limit_titles=100&limit_suggestions=20&lang=en",
-    mostrarInformacion(){
-        let anime = document.querySelectorAll('.info');
-            for (let i = 0; i < anime.length; i++) {
-              anime[i].addEventListener('click', (e) => {
+    mostrarInformacion(movies){
+        console.log(movies);
+            for (let i = 0; i < movies.length; i++) {
+              movies[i].addEventListener('click', (e) => {
                 let idAnime = e.target.id
-                let newApi = `https://advanced-movie-search.p.rapidapi.com/movies/getdetails?movie_id=${idAnime}`;
+                console.log(idAnime);
+                let newApi = `https://netflix-data.p.rapidapi.com/title/details/?ids=${idAnime}`;
               
                 const ws = new Worker("storage/wsMyBanner.js", { type: "module" });
                 ws.postMessage({ module: "showBanner", data: newApi })
         
                 ws.addEventListener("message", (e) => {
-                    console.log(e.data);
                     let doc = new DOMParser().parseFromString(e.data, "text/html")
-                    document.querySelector("#mostrarInfo").append(...doc.body.children)
+                    let mostrarInfo = document.querySelector("#mostrarInfo");
+                    mostrarInfo.innerHTML = null;
+                    mostrarInfo.append(...doc.body.children)
                     ws.terminate()
                 })
+                window.scrollTo(0, 0);
               });
             }
     },
@@ -26,9 +29,10 @@ export default {
             let doc = new DOMParser().parseFromString(e.data, "text/html")
             document.querySelector(".animeList").append(...doc.body.children)
             ws.terminate()
+            let movies = document.querySelectorAll(".info");
+            this.mostrarInformacion(movies);
         }
         )
-        this.mostrarInformacion()
         /*  const movies = await api.fetchData(API, options);
          movies.results.map((val, id) => {
              document.querySelector(".animeList").insertAdjacentHTML("beforeend", `

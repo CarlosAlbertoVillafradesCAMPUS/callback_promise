@@ -1,6 +1,7 @@
 import myCards from "./components/myCards.js";
 
 myCards.anotherFunc();
+myCards.mostrarInformacion();
 /* import api from "./storage/api.js";
 const API ="https://advanced-movie-search.p.rapidapi.com/discover/movie?with_genres=80&page=1";
 
