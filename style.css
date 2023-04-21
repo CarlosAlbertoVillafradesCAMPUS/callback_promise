@@ -1,10 +1,52 @@
-.content-body section {
-    width: 99%;
+.principal{
+    background-image: url(./fondo.jpg);
+}
+.textBanner{
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+}
+/* .sectionBody{
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+.containerAnimeList{
+    width: 100%;
 }
 .content-body section .animeList{
+    width: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fill, 250px);
-    gap: 10px;
+    grid-template-columns: repeat(auto-fill, 240px);
+    gap: 15px;
     place-content: center;
-   
 }
+.anime::before{
+    content: "";
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.493);
+}*/
+.banner{
+    background-size: contain;
+    background-position: center;
+    background-position-y: center;
+}
+.anime{
+    height: 22rem;
+    width: 100%;
+    text-align: center;
+}
+.anime .info{
+    color: transparent;
+    display: grid;
+    place-content: center;
+}
+.anime .info:hover{
+    color: white;
+    background-color: rgba(0, 0, 0, 0.493);
+    cursor: pointer;
+    transition: all .5s ease;
+    z-index: 10;
+}
+
