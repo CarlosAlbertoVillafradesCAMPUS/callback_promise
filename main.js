@@ -1,3 +1,7 @@
+import myCards from "./components/myCards.js";
+
+myCards.anotherFunc();
+/* import api from "./storage/api.js";
 const API ="https://advanced-movie-search.p.rapidapi.com/discover/movie?with_genres=80&page=1";
 
 const options = {
@@ -6,23 +10,23 @@ const options = {
 		'X-RapidAPI-Key': 'b776fbfe3amsh0048685753f14b8p1432c1jsn68c4b0ee05ac',
 		'X-RapidAPI-Host': 'advanced-movie-search.p.rapidapi.com'
 	}
-};
+}; */
 
 //llamado a la API
-const fetchData = async (urlAPI) => {
+/* const fetchData = async (urlAPI) => {
   const response = await fetch(urlAPI, options);
   const data = await response.json();
   console.log(data)
 
   return data;
-};
+}; */
 
 
-const  mostrarInformacion = async (event) => {
+/* const  mostrarInformacion = async (event) => {
   let idAnime = event.target.id
   let newApi = `https://advanced-movie-search.p.rapidapi.com/movies/getdetails?movie_id=${idAnime}`;
 
-  let informacionAnime = await fetchData(`${newApi}`);
+  let informacionAnime = await api.fetchData(API, options);
   console.log(informacionAnime)
   let mostrarInfo = document.querySelector("#mostrarInfo")
   mostrarInfo.innerHTML = null
@@ -39,15 +43,22 @@ const  mostrarInformacion = async (event) => {
           </div>
   </div>`)
 
-}
+} */
 
 //peticiones a la API
-const anotherFunc = async (urlAPI) => {
+/* const anotherFunc = () => {
+  const ws = new Worker("storage/ws.js", {type:"module"});
+  ws.postMessage({module:"showCards"})
 
-    const movies = await fetchData(`${urlAPI}`);
+  ws.addEventListener("message", (e) =>{
+    let doc = new DOMParser().parseFromString(e.data, "text/html")
+    document.querySelector(".animeList").append(...doc.body.children)
+    ws.terminate()
+  })
+    const movies = await api.fetchData(API, options);
     movies.results.map((val, id) => {
         document.querySelector(".animeList").insertAdjacentHTML("beforeend", `
-        <li class="col-4 justify-content-center movies">
+        <li class="col-6 col-lg-3 justify-content-center movies">
         <div class="text-center rounded anime"  style="background-image: url(${val.poster_path});background-repeat: no-repeat; background-size: cover;">
           <div class="p-5 w-100 h-100 info" id="${val.id}">
             <h3>${val.title}</h3>
@@ -79,11 +90,11 @@ const anotherFunc = async (urlAPI) => {
     }
 };
 
-anotherFunc(API);
-
-let search = document.querySelector("#search");
+anotherFunc();
+ */
+/* let search = document.querySelector("#search");
 let list = document.querySelectorAll(".movies");
-console.log(list);
+console.log(list); */
 
   
   // // Función para renderizar la lista de películas
