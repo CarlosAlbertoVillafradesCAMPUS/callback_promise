@@ -48,7 +48,9 @@ export default {
                   })}
                 
             })
-          } 
+          } else{
+            this.fragmentMyCards()
+          }
       })
   },
 }

@@ -28,6 +28,7 @@ export let ws = {
          });
       return plantilla
    },
+
    async showSearch(name) {
     let plantilla = ""
     let movieSearchUrl = `https://api.themoviedb.org/3/search/movie?api_key=3df70b20cbd027249f00bb9372cbadf9&query=${name}`
@@ -51,6 +52,7 @@ export let ws = {
     
     return plantilla;
 },
+
    async showBanner(urlAPI){
     let movie = await api.fetchData(urlAPI);
     let plantilla = `
