@@ -1,70 +1,54 @@
+import myBanner from "./myBanner.js";
 export default {
-    API: "https://netflix54.p.rapidapi.com/search/?query=stranger&offset=0&limit_titles=100&limit_suggestions=20&lang=en",
-    mostrarInformacion(movies){
-        console.log(movies);
-            for (let i = 0; i < movies.length; i++) {
-              movies[i].addEventListener('click', (e) => {
-                let idAnime = e.target.id
-                console.log(idAnime);
-                let newApi = `https://netflix-data.p.rapidapi.com/title/details/?ids=${idAnime}`;
-              
-                const ws = new Worker("storage/wsMyBanner.js", { type: "module" });
-                ws.postMessage({ module: "showBanner", data: newApi })
-        
-                ws.addEventListener("message", (e) => {
-                    let doc = new DOMParser().parseFromString(e.data, "text/html")
-                    let mostrarInfo = document.querySelector("#mostrarInfo");
-                    mostrarInfo.innerHTML = null;
-                    mostrarInfo.append(...doc.body.children)
-                    ws.terminate()
-                })
-                window.scrollTo(0, 0);
-              });
-            }
-    },
-    anotherFunc() {
+  //creamos nuestra variable API
+    API: "https://api.themoviedb.org/3/movie/popular?api_key=3df70b20cbd027249f00bb9372cbadf9&page=2&language=es",
+    
+  //funcion de las cards
+    fragmentMyCards() {
+      //creacion y funcionamiento del worker
         const ws = new Worker("storage/ws.js", { type: "module" });
         ws.postMessage({ module: "showCards", data: this.API })
         ws.addEventListener("message", (e) => {
             let doc = new DOMParser().parseFromString(e.data, "text/html")
-            document.querySelector(".animeList").append(...doc.body.children)
+            document.querySelector(".movieList").append(...doc.body.children)
             ws.terminate()
-            let movies = document.querySelectorAll(".info");
-            this.mostrarInformacion(movies);
+      //se agrega evento de escucha a lo botones de las cards
+            let buttomMovies = document.querySelectorAll(".buttomInfo");
+      // se llama el archivo my banner con su respectivas funcion para tambien mostrar nuestro banner
+            myBanner.fragmentMyBanner(buttomMovies[0].id)
+            for (let i = 0; i < buttomMovies.length; i++) {
+              buttomMovies[i].addEventListener('click', (e) => {
+                myBanner.fragmentMyBanner(e)
+              })}
         }
-        )
-        /*  const movies = await api.fetchData(API, options);
-         movies.results.map((val, id) => {
-             document.querySelector(".animeList").insertAdjacentHTML("beforeend", `
-             <li class="col-6 col-lg-3 justify-content-center movies">
-             <div class="text-center rounded anime"  style="background-image: url(${val.poster_path});background-repeat: no-repeat; background-size: cover;">
-               <div class="p-5 w-100 h-100 info" id="${val.id}">
-                 <h3>${val.title}</h3>
-                 <p>Lanzamiento: ${val.release_date}</p>
-               </div>   
-             </div>
-             </li>`)
-     
-             if(val.id == 804150){
-               document.querySelector("#mostrarInfo").insertAdjacentHTML("beforeend", `
-               <div style="background-image:url(${val.backdrop_path});">
-               <div class="py-5 mb-4 text-white text-center banner" style="background-color:  rgba(0, 0, 0, 0.5);background-position: center;">
-                 <h1 class="mt-5">${val.title}</h1>
-                 <div class="d-flex justify-content-center">
-                 <p class="text-center w-75 textBanner">${val.overview}</p>
-                 </div>
-                 <div class="mb-5" >
-                 <a class="btn btn-primary" href="${val.link}">Ver Movie</a>
-                 </div>
-               </div>
-               </div>
-               `)
-                 }
-         }).join(""); */
-
-        /*  let anime = document.querySelectorAll('.info');
-         for (let i = 0; i < anime.length; i++) {
-           anime[i].addEventListener('click', mostrarInformacion);
-         } */
-    }
+        );
+        //se llama el funcionamineto del buscador
+        this.mySearch()
+    },
+    mySearch() {
+      const search = document.querySelector("#search");
+      search.addEventListener("input", (e) => { //evento de input para el buscador
+        let valor = e.target.value
+          if (search.value) {
+            //creacion del worker
+            const ws = new Worker("./storage/ws.js", { type: "module" });
+            ws.postMessage({ module: "showSearch", data: valor })
+            ws.addEventListener("message", (e) => {
+              let doc =  new DOMParser().parseFromString(e.data, "text/html");
+              console.log(doc);
+              let movieList = document.querySelector(".movieList")
+              movieList.innerHTML = null;
+              movieList.append(...doc.body.children)
+                ws.terminate()
+                let buttomMovies = document.querySelectorAll(".buttomInfo");
+                //se agrega evento de escucha a lo botones de las cards
+                for (let i = 0; i < buttomMovies.length; i++) {
+                  buttomMovies[i].addEventListener('click', (e) => {
+                    myBanner.fragmentMyBanner(e)
+                  })}
+                
+            })
+          } 
+      })
+  },
 }
