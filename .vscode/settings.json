@@ -2,6 +2,7 @@
     "conventionalCommits.scopes": [
         "worker",
         "global",
-        "style"
+        "style",
+        "Add Code"
     ]
 }

@@ -1,15 +1,11 @@
 import api from "../API/api.js";
 export let ws = {
+
     async showCards(urlAPI){
-      //como la api se divide por paginas, primero se realiza una peticio a la primera pagina y luego a la sgeunda
-    let moviesPage1 = await api.fetchData(urlAPI);
-    let urlAPIPage2 = `https://api.themoviedb.org/3/movie/popular?api_key=3df70b20cbd027249f00bb9372cbadf9&page=3&language=es`
-    let moviesPage2 = await api.fetchData(urlAPIPage2);
-    // se unen los dos resultados de las 2 paginas
-    let allMovies = moviesPage1.results.concat(moviesPage2.results);
-    console.log(allMovies);
+      //llamado a la API
+    let movies = await api.fetchData(urlAPI);
     let plantilla = ""
-        allMovies.forEach((val, id) => {   
+        movies.results.forEach((val, id) => {   
           if(val.poster_path){
             plantilla += `
             <li class="col-6 col-lg-3 justify-content-center">
@@ -69,6 +65,15 @@ export let ws = {
     </div>`
     
       return plantilla
+   },
+
+   showButtons(page){
+    let plantilla = `
+    <button class="btn btn-danger" id="btnPrevious" disabled>previous</button>
+        <p class="text-white fs-5 m-0">Page ${page}</p>
+        <button class="btn btn-danger" id="btnNext">Next</button>`
+    
+        return plantilla;
    }
    
 }

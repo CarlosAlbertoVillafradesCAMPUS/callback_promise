@@ -18,6 +18,6 @@ export default {
                 mostrarInfo.append(...doc.body.children)
                 ws.terminate()
             })
-            window.scrollTo(0, 0);
+            
 },
 }
